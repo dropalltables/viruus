@@ -1,0 +1,20 @@
+{{ define "title" }}
+  {{ if .Title }}{{ .Title }}{{ else }}404{{ end }}
+{{ end }}
+
+{{ define "main" }}
+<content>
+  {{ if .Content }}
+    {{- partial "process-emojis.html" .Content -}}
+  {{ else }}
+    {{ $page404 := .Site.GetPage "404" }}
+    {{ if $page404 }}
+      {{- partial "process-emojis.html" $page404.Content -}}
+    {{ else }}
+      <h1>404</h1>
+      <h2>ʕノ•ᴥ•ʔノ ︵ ┻━┻</h2>
+    {{ end }}
+  {{ end }}
+</content>
+{{ end }}
+

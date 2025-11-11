@@ -1,0 +1,26 @@
+{{- $content := . -}}
+{{- $emojiPattern := `:([a-zA-Z0-9_.-]+):` -}}
+{{- $matches := findRE $emojiPattern $content -}}
+{{- $uniqueEmojis := slice -}}
+
+{{- range $matches -}}
+  {{- $emojiName := . | replaceRE `:([a-zA-Z0-9_.-]+):` "$1" -}}
+  {{- if not (in $uniqueEmojis $emojiName) -}}
+    {{- $uniqueEmojis = $uniqueEmojis | append $emojiName -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range $uniqueEmojis -}}
+  {{- $emojiName := . -}}
+  {{- $emojiPath := printf "images/emojis/%s" $emojiName -}}
+  {{- with resources.Get $emojiPath -}}
+    {{- $published := .RelPermalink -}}
+    {{- $placeholder := printf `:%s:` $emojiName -}}
+    {{- $imgTag := printf `<img src="%s" alt="%s" class="emoji" style="height: 1em; vertical-align: middle; display: inline-block;">` $published $emojiName -}}
+    {{- $content = replace $content $placeholder $imgTag -}}
+  {{- else -}}
+    {{/* Emoji file not found, leave the :emoji: text as-is */}}
+  {{- end -}}
+{{- end -}}
+
+{{- $content | safeHTML -}}
