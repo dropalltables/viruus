@@ -13,4 +13,4 @@ i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [t
 
 #### random:
 - [about my username](https://xkcd.com/327/)
-- this site was customized from [hugo bear](https://github.com/janraasch/hugo-bearblog/) and uses [berkeley mono](https://berkeleymono.com)
+- [this site](https://github.com/dropalltables/viruus) was customized from [hugo bear](https://github.com/janraasch/hugo-bearblog/) and uses [berkeley mono](https://berkeleymono.com)
