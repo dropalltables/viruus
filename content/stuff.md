@@ -15,4 +15,4 @@ if you want you can get updates on stuff i do:
 
 **check your email to confirm your subscription (check in spam!)**
 
-ps: by removing javascript i've removed interaction indicators, and the way i prevent redirects to my api is sketchy. so glhf i guess. if you don't receive an email after signing up check the console :) :boom.gif::boom.gif::boom.gif:
+ps: by removing javascript i've removed interaction indicators, and the way i prevent redirects to my api is sketchy. so GLHF i guess. if you don't receive an email after signing up check the console :) :boom.gif::boom.gif::boom.gif:
