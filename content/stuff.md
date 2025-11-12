@@ -4,7 +4,7 @@ title = "stuff i do"
 
 ## stuff i do
 
-if you want you can get updates on stuff i do, you can sign up for them:
+if you want you can get updates on stuff i do:
 
 <form action="https://resender.viruus.workers.dev/subscribe" method="POST" target="hidden_iframe">
   <input type="email" name="email" placeholder="your@email.com" required>
