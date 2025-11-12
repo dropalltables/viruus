@@ -36,6 +36,10 @@ Output will be in the `public/` directory.
 
 The site is configured to deploy automatically to Vercel with Hugo version 0.138.0.
 
+## Email Automation
+
+New blog posts are automatically sent via Resend when pushed to main. Requires GitHub secrets: `RESEND_API_KEY` and `RESEND_SEGMENT_ID`.
+
 ## Project Structure
 
 - `content/` - Site content (pages, blog posts)
