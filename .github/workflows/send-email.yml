@@ -17,6 +17,9 @@ jobs:
         with:
           fetch-depth: 2  # Need previous commit to detect new files
       
+      - name: Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+      
       - name: Send email for new blog posts
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
