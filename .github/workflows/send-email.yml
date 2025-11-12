@@ -55,7 +55,7 @@ jobs:
             if [ ! -f "$file" ]; then
               echo "  Skipping: File not found"
               echo ""
-              ((EMAILS_SKIPPED++))
+              EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
               continue
             fi
             
@@ -66,7 +66,7 @@ jobs:
             if ! echo "$CONTENT" | head -n 1 | grep -q "^+++"; then
               echo "  Skipping: No frontmatter found"
               echo ""
-              ((EMAILS_SKIPPED++))
+              EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
               continue
             fi
             
@@ -82,7 +82,7 @@ jobs:
             if [ -n "$IS_DRAFT" ]; then
               echo "  Skipping: Post is marked as draft"
               echo ""
-              ((EMAILS_SKIPPED++))
+              EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
               continue
             fi
             
@@ -134,17 +134,17 @@ jobs:
               
               if [ "$SEND_HTTP_CODE" = "200" ] || [ "$SEND_HTTP_CODE" = "201" ]; then
                 echo "  Email sent successfully"
-                ((EMAILS_SENT++))
+                EMAILS_SENT=$((EMAILS_SENT + 1))
               else
                 SEND_RESPONSE_BODY=$(echo "$SEND_RESPONSE" | head -n -1)
                 echo "  Error sending broadcast (HTTP $SEND_HTTP_CODE)"
                 echo "  Response: $SEND_RESPONSE_BODY"
-                ((EMAILS_SKIPPED++))
+                EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
               fi
             else
               echo "  Error creating broadcast (HTTP $HTTP_CODE)"
               echo "  Response: $RESPONSE_BODY"
-              ((EMAILS_SKIPPED++))
+              EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
             fi
             
             echo ""
