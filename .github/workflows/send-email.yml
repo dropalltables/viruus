@@ -95,8 +95,11 @@ jobs:
             
             echo "  Title: $TITLE"
             
+            # Convert markdown to HTML using pandoc
+            POST_HTML=$(echo "$POST_CONTENT" | pandoc -f markdown -t html)
+            
             # Escape content for JSON
-            POST_CONTENT_ESCAPED=$(echo "$POST_CONTENT" | jq -Rs .)
+            POST_HTML_ESCAPED=$(echo "$POST_HTML" | jq -Rs .)
             
             # Create JSON payload
             JSON_PAYLOAD=$(jq -n \
@@ -104,13 +107,13 @@ jobs:
               --arg from "dropalltables <blog@system.viruus.zip>" \
               --arg name "$TITLE" \
               --arg subject "$TITLE" \
-              --argjson text "$POST_CONTENT_ESCAPED" \
+              --argjson html "$POST_HTML_ESCAPED" \
               '{
                 segment_id: $segment_id,
                 from: $from,
                 name: $name,
                 subject: $subject,
-                text: $text
+                html: $html
               }')
             
             # Create broadcast via Resend API
