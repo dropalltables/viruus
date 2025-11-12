@@ -5,7 +5,7 @@ weight = 1
 +++
 ## hi there! :wave.gif:
 
-i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [the](https://github.com/dropalltables/hackathonstore) [web](https://sixdegreesofhackclub.vercel.app), though i don't publish much. i'm currently in [sf](https://en.wikipedia.org/wiki/San_Francisco) [learning](https://posthog.com/) and building [cool stuff](/stuff) w/ cool people.
+i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [the](https://github.com/dropalltables/hackathonstore) [web](https://sixdegreesofhackclub.vercel.app), though i don't publish much. i'm currently in [sf](https://en.wikipedia.org/wiki/San_Francisco) learning and building [cool stuff](/stuff) w/ cool people.
 
 #### contact me:
 - github: **[dropalltables](https://github.com/dropalltables)**

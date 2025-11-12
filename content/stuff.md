@@ -1,14 +1,14 @@
 +++
-title = "coming soon"
+title = "stuff i do"
 +++
 
-## coming soon&trade;
+## stuff i do
 
-if you want you can get updates on stuff i do
+if you want you can get updates on stuff i do, you can sign up for them:
 
 <form action="https://resender.viruus.workers.dev/subscribe" method="POST" target="hidden_iframe">
   <input type="email" name="email" placeholder="your@email.com" required>
-  <button type="submit">get updates</button>
+  <button type="submit">signup</button>
 </form>
 <iframe name="hidden_iframe" style="display: none;"></iframe>
 
