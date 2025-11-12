@@ -105,7 +105,7 @@ jobs:
               --arg subject "$TITLE" \
               --argjson text "$POST_CONTENT_ESCAPED" \
               '{
-                segmentId: $segment_id,
+                segment_id: $segment_id,
                 from: $from,
                 subject: $subject,
                 text: $text

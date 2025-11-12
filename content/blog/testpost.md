@@ -5,4 +5,4 @@ draft = "true"
 tags = ["testing"]
 +++
 
-this is a post for testing (sorry if you get an email)
+this is a post for testing (sorry if you get an email lol)
