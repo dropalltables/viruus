@@ -102,16 +102,18 @@ jobs:
             JSON_PAYLOAD=$(jq -n \
               --arg segment_id "$RESEND_SEGMENT_ID" \
               --arg from "dropalltables <blog@system.viruus.zip>" \
+              --arg name "$TITLE" \
               --arg subject "$TITLE" \
               --argjson text "$POST_CONTENT_ESCAPED" \
               '{
                 segment_id: $segment_id,
                 from: $from,
+                name: $name,
                 subject: $subject,
                 text: $text
               }')
             
-            # Send email via Resend API
+            # Create broadcast via Resend API
             RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.resend.com/broadcasts" \
               -H "Authorization: Bearer $RESEND_API_KEY" \
               -H "Content-Type: application/json" \
@@ -122,11 +124,25 @@ jobs:
             
             if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
               BROADCAST_ID=$(echo "$RESPONSE_BODY" | jq -r '.id // "unknown"')
-              echo "  Email sent successfully"
-              echo "  Broadcast ID: $BROADCAST_ID"
-              ((EMAILS_SENT++))
+              echo "  Broadcast created: $BROADCAST_ID"
+              
+              # Send the broadcast
+              SEND_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.resend.com/broadcasts/$BROADCAST_ID/send" \
+                -H "Authorization: Bearer $RESEND_API_KEY")
+              
+              SEND_HTTP_CODE=$(echo "$SEND_RESPONSE" | tail -n 1)
+              
+              if [ "$SEND_HTTP_CODE" = "200" ] || [ "$SEND_HTTP_CODE" = "201" ]; then
+                echo "  Email sent successfully"
+                ((EMAILS_SENT++))
+              else
+                SEND_RESPONSE_BODY=$(echo "$SEND_RESPONSE" | head -n -1)
+                echo "  Error sending broadcast (HTTP $SEND_HTTP_CODE)"
+                echo "  Response: $SEND_RESPONSE_BODY"
+                ((EMAILS_SKIPPED++))
+              fi
             else
-              echo "  Error sending email (HTTP $HTTP_CODE)"
+              echo "  Error creating broadcast (HTTP $HTTP_CODE)"
               echo "  Response: $RESPONSE_BODY"
               ((EMAILS_SKIPPED++))
             fi
@@ -135,3 +151,4 @@ jobs:
           done <<< "$NEW_FILES"
           
           echo "Summary: $EMAILS_SENT email(s) sent, $EMAILS_SKIPPED skipped"
+          exit 0
