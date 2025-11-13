@@ -159,6 +159,21 @@ jobs:
             # Convert markdown to HTML using pandoc
             POST_HTML=$(echo "$POST_CONTENT" | pandoc -f markdown -t html)
             
+            # Fix relative image paths to absolute URLs
+            POST_HTML=$(echo "$POST_HTML" | sed 's|src="/images/|src="https://viruus.zip/images/|g')
+            
+            # Remove footnote anchor links (email clients don't handle anchors well)
+            # Remove footnote reference links like <a href="#fn1" ...><sup>1</sup></a> but keep the superscript number
+            POST_HTML=$(echo "$POST_HTML" | sed -E 's|<a href="#fn[0-9]+" class="footnote-ref"[^>]*>(<sup>[0-9]+</sup>)</a>|\1|g')
+            
+            # Remove backlinks in footnotes (the ↩︎ links back to text)
+            POST_HTML=$(echo "$POST_HTML" | sed -E 's|<a href="#fnref[0-9]+" class="footnote-back"[^>]*>[^<]*</a>||g')
+            
+            # Remove id attributes from footnote elements (so they're not anchor targets)
+            POST_HTML=$(echo "$POST_HTML" | sed -E 's| id="fn[0-9]+"||g')
+            POST_HTML=$(echo "$POST_HTML" | sed -E 's| id="fnref[0-9]+"||g')
+            POST_HTML=$(echo "$POST_HTML" | sed -E 's| id="footnotes"||g')
+            
             # Escape content for JSON
             POST_HTML_ESCAPED=$(echo "$POST_HTML" | jq -Rs .)
             
