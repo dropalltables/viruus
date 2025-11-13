@@ -24,29 +24,30 @@ jobs:
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_SEGMENT_ID: ${{ secrets.RESEND_SEGMENT_ID }}
+          RESEND_TEST_SEGMENT_ID: ${{ secrets.RESEND_TEST_SEGMENT_ID }}
         run: |
           #!/bin/bash
           set -e
           
-          echo "Checking for new blog posts..."
+          echo "Checking for new or modified blog posts..."
           echo ""
           
-          # Get list of newly added files in content/blog/
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep '^content/blog/.*\.md$' | grep -v '_index.md' || true)
+          # Get list of new or modified files in content/blog/
+          CHANGED_FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD | grep '^content/blog/.*\.md$' | grep -v '_index.md' || true)
           
-          if [ -z "$NEW_FILES" ]; then
-            echo "No new blog posts found."
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No new or modified blog posts found."
             exit 0
           fi
           
-          echo "Found new blog post(s):"
-          echo "$NEW_FILES"
+          echo "Found changed blog post(s):"
+          echo "$CHANGED_FILES"
           echo ""
           
           EMAILS_SENT=0
           EMAILS_SKIPPED=0
           
-          # Process each new file
+          # Process each changed file
           while IFS= read -r file; do
             if [ -z "$file" ]; then
               continue
@@ -54,7 +55,7 @@ jobs:
             
             echo "Processing: $file"
             
-            # Check if file exists
+            # Check if file exists in current commit
             if [ ! -f "$file" ]; then
               echo "  Skipping: File not found"
               echo ""
@@ -62,7 +63,10 @@ jobs:
               continue
             fi
             
-            # Extract frontmatter and content
+            # Determine if file is new or modified
+            IS_NEW_FILE=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep "^$file$" || true)
+            
+            # Extract current frontmatter and content
             CONTENT=$(cat "$file")
             
             # Check if file has frontmatter
@@ -79,11 +83,54 @@ jobs:
             # Extract post content (after second +++)
             POST_CONTENT=$(echo "$CONTENT" | awk '/^\+\+\+$/{n++; next} n>=2')
             
-            # Check if draft
-            IS_DRAFT=$(echo "$FRONTMATTER" | grep -i "^draft\s*=\s*true" || true)
+            # Check current draft status
+            CURRENT_IS_DRAFT=$(echo "$FRONTMATTER" | grep -i "^draft\s*=.*true" || true)
             
-            if [ -n "$IS_DRAFT" ]; then
-              echo "  Skipping: Post is marked as draft"
+            # For modified files, check previous draft status
+            PREVIOUS_IS_DRAFT=""
+            if [ -z "$IS_NEW_FILE" ]; then
+              # Get previous version of the file
+              PREVIOUS_CONTENT=$(git show HEAD~1:"$file" 2>/dev/null || echo "")
+              if [ -n "$PREVIOUS_CONTENT" ]; then
+                PREVIOUS_FRONTMATTER=$(echo "$PREVIOUS_CONTENT" | awk '/^\+\+\+$/{if(++n==2)exit;next}n')
+                PREVIOUS_IS_DRAFT=$(echo "$PREVIOUS_FRONTMATTER" | grep -i "^draft\s*=.*true" || true)
+              fi
+            fi
+            
+            # Determine what action to take
+            SHOULD_SEND_PRODUCTION=false
+            SHOULD_SEND_TEST=false
+            
+            if [ -n "$IS_NEW_FILE" ]; then
+              # New file
+              if [ -z "$CURRENT_IS_DRAFT" ]; then
+                echo "  New post, not a draft - sending to production"
+                SHOULD_SEND_PRODUCTION=true
+              else
+                echo "  New post, is a draft - sending to test segment"
+                SHOULD_SEND_TEST=true
+              fi
+            else
+              # Modified file
+              if [ -n "$CURRENT_IS_DRAFT" ]; then
+                # Currently a draft - send to test segment
+                echo "  Draft updated - sending to test segment"
+                SHOULD_SEND_TEST=true
+              elif [ -n "$PREVIOUS_IS_DRAFT" ] && [ -z "$CURRENT_IS_DRAFT" ]; then
+                # Was draft, now not draft - send to production
+                echo "  Post transitioned from draft to published - sending to production"
+                SHOULD_SEND_PRODUCTION=true
+              else
+                # Was not draft, still not draft - skip
+                echo "  Skipping: Post already published (no email for updates to published posts)"
+                echo ""
+                EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
+                continue
+              fi
+            fi
+            
+            if [ "$SHOULD_SEND_PRODUCTION" = false ] && [ "$SHOULD_SEND_TEST" = false ]; then
+              echo "  Skipping: No action needed"
               echo ""
               EMAILS_SKIPPED=$((EMAILS_SKIPPED + 1))
               continue
@@ -98,18 +145,36 @@ jobs:
             
             echo "  Title: $TITLE"
             
+            # Determine which segment to use
+            if [ "$SHOULD_SEND_PRODUCTION" = true ]; then
+              TARGET_SEGMENT_ID="$RESEND_SEGMENT_ID"
+              EMAIL_TYPE="production"
+            else
+              TARGET_SEGMENT_ID="$RESEND_TEST_SEGMENT_ID"
+              EMAIL_TYPE="test"
+            fi
+            
+            echo "  Sending to: $EMAIL_TYPE segment"
+            
             # Convert markdown to HTML using pandoc
             POST_HTML=$(echo "$POST_CONTENT" | pandoc -f markdown -t html)
             
             # Escape content for JSON
             POST_HTML_ESCAPED=$(echo "$POST_HTML" | jq -Rs .)
             
+            # Add draft indicator to subject for test emails
+            if [ "$SHOULD_SEND_TEST" = true ]; then
+              EMAIL_SUBJECT="[DRAFT] $TITLE"
+            else
+              EMAIL_SUBJECT="$TITLE"
+            fi
+            
             # Create JSON payload
             JSON_PAYLOAD=$(jq -n \
-              --arg segment_id "$RESEND_SEGMENT_ID" \
+              --arg segment_id "$TARGET_SEGMENT_ID" \
               --arg from "dropalltables <blog@system.viruus.zip>" \
               --arg name "$TITLE" \
-              --arg subject "$TITLE" \
+              --arg subject "$EMAIL_SUBJECT" \
               --argjson html "$POST_HTML_ESCAPED" \
               '{
                 segment_id: $segment_id,
@@ -154,7 +219,7 @@ jobs:
             fi
             
             echo ""
-          done <<< "$NEW_FILES"
+          done <<< "$CHANGED_FILES"
           
           echo "Summary: $EMAILS_SENT email(s) sent, $EMAILS_SKIPPED skipped"
           exit 0
