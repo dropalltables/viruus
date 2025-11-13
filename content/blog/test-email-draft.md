@@ -1,6 +1,6 @@
 +++
-title = "Test Email Draft"
-date = "2025-11-12T17:13:40-08:00"
+title = "Test Email"
+date = "2025-11-12T17:20:12-08:00"
 description = "Testing the new email system with drafts, images, and footnotes."
 draft = "true"
 tags = ["testing","email"]
