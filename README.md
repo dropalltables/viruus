@@ -1,6 +1,6 @@
 # viruus.zip
 
-Personal website and blog built with [Hugo](https://gohugo.io/) and the [hugo-bearblog](https://github.com/janraasch/hugo-bearblog/) theme.
+Personal website and blog built with [Hugo](https://gohugo.io/) and the [hugo-bearblog](https://github.com/janraasch/hugo-bearblog/) theme. Uses [resender](https://github.com/dropalltables/resender) for emails.
 
 ## Setup
 
