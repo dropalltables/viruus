@@ -9,7 +9,6 @@ i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [t
 
 #### contact me:
 - github: **[dropalltables](https://github.com/dropalltables)**
-- email: **[hello@viruus.zip](mailto:hello@viruus.zip)**
 
 #### random:
 - [about my username](https://xkcd.com/327/)
