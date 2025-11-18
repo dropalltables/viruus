@@ -6,7 +6,7 @@ title = "stuff i do"
 
 if you want you can get updates on stuff i do:
 
-<form action="https://resender.viruus.workers.dev/subscribe" method="POST" target="hidden_iframe">
+<form action="https://system.viruus.zip/subscribe" method="POST" target="hidden_iframe">
   <input type="email" name="email" placeholder="your@email.com" required>
   <input type="hidden" name="audience" value="blog">
   <button type="submit">signup</button>

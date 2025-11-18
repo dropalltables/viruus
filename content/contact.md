@@ -6,7 +6,7 @@ title = "contact me"
 
 so that i don't get spam here is a contact form
 
-<form action="https://resender.viruus.workers.dev/contact" method="POST" target="hidden_iframe">
+<form action="https://system.viruus.zip/contact" method="POST" target="hidden_iframe">
   <input type="text" name="name" placeholder="your name" required style="display: block;">
   <input type="email" name="email" placeholder="your@email.com" required style="display: block;">
   <textarea name="message" placeholder="your message" rows="4" required style="display: block;"></textarea>
