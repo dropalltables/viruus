@@ -11,6 +11,7 @@ so that i don't get spam here is a contact form
   <input type="email" name="email" placeholder="your@email.com" required style="display: block;">
   <textarea name="message" placeholder="your message" rows="4" required style="display: block;"></textarea>
   <input type="text" name="website" placeholder="Your website (leave blank)" style="display: none;" tabindex="-1" autocomplete="off">
+  <div class="cf-turnstile" data-sitekey="YOUR_SITE_KEY_HERE" style="margin: 10px 0;"></div>
   <button type="submit">send message</button>
 </form>
 <iframe name="hidden_iframe" style="display: none;"></iframe>
