@@ -46,3 +46,13 @@ pre {
   font-family: var(--font-mono);
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--background-color);
+  background-color: var(--link-color);
+  text-decoration: none;
+}
+
