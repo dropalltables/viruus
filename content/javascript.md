@@ -1,5 +1,5 @@
 +++
-title = "js warning"
+title = "contact"
 menu = "main"
 weight = 40
 +++
