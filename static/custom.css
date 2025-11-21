@@ -56,3 +56,11 @@ a:hover {
   text-decoration: none;
 }
 
+/* Form layout (UX only - position/layout) */
+form input,
+form textarea,
+form button,
+form .cf-turnstile {
+  display: block;
+}
+

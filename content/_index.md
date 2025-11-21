@@ -9,7 +9,7 @@ i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [t
 
 #### contact me:
 - github: **[dropalltables](https://github.com/dropalltables)**
-- form: **[contact](/contact)**
+- form: **[contact](/javascript)**
 
 #### random:
 - [about my username](https://xkcd.com/327/)
