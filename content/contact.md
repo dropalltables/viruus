@@ -11,8 +11,14 @@ title = "contact me"
   <input type="email" name="email" placeholder="your@email.com" required>
   <textarea name="message" placeholder="your message" rows="4" required></textarea>
   <div class="cf-turnstile" data-sitekey="0x4AAAAAACCIH6LE-pwfc-u6"></div>
-  <button type="submit">send message</button>
+  <button type="submit" id="contact-submit" disabled>send message</button>
 </form>
-<iframe name="hidden_iframe" style="display:none"></iframe>
 
-ps: this form uses javascript for cloudflare turnstile spam protection.
+<script>
+document.getElementById('contact-submit').disabled = false;
+</script>
+<iframe name="hidden_iframe" style="display:none"></iframe>
+<br>
+<noscript>
+<strong>this contact form requires javascript for cloudflare turnstile spam protection.</strong> sorry :(
+</noscript>
