@@ -7,7 +7,7 @@ Guide for AI agents working in the viruus.zip repository - a personal website an
 This is a static website built with [Hugo](https://gohugo.io/) using the [hugo-bearblog](https://github.com/janraasch/hugo-bearblog/) theme. The site features:
 
 - Personal blog with automated email distribution via Resend
-- Zero JavaScript philosophy (all HTML forms, no client-side JS)
+- Minimal JavaScript philosophy (only used for Cloudflare Turnstile spam protection on contact form)
 - Custom Berkeley Mono font
 - Custom emoji rendering system
 - Automated deployment to Vercel
@@ -71,7 +71,8 @@ The `datedooter.sh` script updates the `date` field in a blog post's frontmatter
 ├── content/             # Site content (markdown)
 │   ├── blog/            # Blog posts
 │   ├── _index.md        # Homepage content
-│   ├── contact.md       # Contact page
+│   ├── contact.md       # Contact form (with Cloudflare Turnstile)
+│   ├── javascript.md    # JavaScript warning page for contact form
 │   ├── projects.md      # Projects page
 │   └── stuff.md         # Stuff page
 ├── layouts/             # Custom layout overrides
@@ -136,7 +137,9 @@ tags = ["tag1", "tag2", "tag3"]
 
 ### Content Conventions
 
-1. **No JavaScript**: Site philosophy is zero client-side JavaScript
+1. **Minimal JavaScript**: Site philosophy is to avoid JavaScript except where necessary for spam protection
+   - Contact form uses Cloudflare Turnstile (requires JavaScript)
+   - Warning page (`/javascript`) redirects users before they encounter JavaScript
 2. **Custom emojis**: Use `:emoji-name.gif:` syntax (e.g., `:wave.gif:`)
    - Emoji files must be in `assets/images/emojis/`
    - Rendered via `process-emojis.html` partial
@@ -164,6 +167,7 @@ weight = 10       # Menu ordering (lower = earlier)
 - Defines Berkeley Mono font faces (Regular, Bold, Oblique, Bold-Oblique)
 - Custom link hover behavior (inverts colors - background becomes link color)
 - Applied to `time`, `code`, and `pre` elements
+- Form layout styles (display: block for inputs, textarea, button, Turnstile widget)
 
 ### Font Setup
 
@@ -363,17 +367,27 @@ git submodule update --remote themes/hugo-bearblog
 
 ### Content
 
-1. **Zero JavaScript philosophy**:
-   - Don't add client-side JS
-   - Use HTML forms for interactive elements
+1. **Minimal JavaScript philosophy**:
+   - Avoid JavaScript where possible
+   - Exception: Contact form uses Cloudflare Turnstile for spam protection
+   - `/javascript` page warns users before they encounter JavaScript-enabled pages
+   - Homepage links to `/javascript` which redirects to `/contact`
    - Cloudflare Workers handle form submissions (external to this repo)
 
-2. **Emoji syntax**:
+2. **Contact form**:
+   - Uses Cloudflare Turnstile widget (`data-sitekey="0x4AAAAAACCIH6LE-pwfc-u6"`)
+   - Loads Turnstile script: `https://challenges.cloudflare.com/turnstile/v0/api.js`
+   - Submits to `https://system.viruus.zip/contact`
+   - Hidden iframe prevents redirect after submission
+   - Form fields: name, email, message
+   - CSS ensures form elements display as block
+
+3. **Emoji syntax**:
    - Must include file extension: `:wave.gif:` not `:wave:`
    - File must exist in `assets/images/emojis/`
    - Case-sensitive
 
-3. **URL structure**:
+4. **URL structure**:
    - Blog posts: `https://viruus.zip/post-slug/`
    - Pages: `https://viruus.zip/page-name/`
    - No `/blog/` prefix in URLs (Bearblog style)
@@ -401,11 +415,12 @@ git submodule update --remote themes/hugo-bearblog
 - **Pandoc**: Markdown to HTML conversion (GitHub Actions only)
 - **Resend**: Email service provider (external API)
 - **Vercel**: Hosting and deployment platform
+- **Cloudflare Turnstile**: Spam protection for contact form (JavaScript widget)
 
 ## File Patterns to Recognize
 
 - **Blog posts**: `content/blog/*.md` (excluding `_index.md`)
-- **Pages**: `content/*.md`
+- **Pages**: `content/*.md` (including `contact.md` and `javascript.md`)
 - **Images**: `static/images/**` (served as-is)
 - **Emojis**: `assets/images/emojis/**` (processed)
 - **Fonts**: `static/fonts/*.woff2`
