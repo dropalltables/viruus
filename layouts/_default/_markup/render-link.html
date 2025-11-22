@@ -1,0 +1,11 @@
+{{- $destination := .Destination -}}
+{{- $isSillyLink := hasPrefix $destination "/silly/" -}}
+{{- $isInSillySection := eq .Page.Section "silly" -}}
+{{- $isInWarningSection := eq .Page.Section "warning" -}}
+
+{{- if and $isSillyLink (not $isInSillySection) (not $isInWarningSection) -}}
+  {{- $destination = replace $destination "/silly/" "/warning/" 1 -}}
+{{- end -}}
+
+<a href="{{ $destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+

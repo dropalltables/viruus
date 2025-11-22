@@ -12,6 +12,6 @@ i make [things](/projects), a lot of them [on](https://catprinter.vercel.app) [t
 - form: **[contact](/javascript)**
 
 #### random:
-- [about my username](https://xkcd.com/327/)
+- [about](https://xkcd.com/327/) my username
 - [this site](https://github.com/dropalltables/viruus) was customized from [hugo bear](https://github.com/janraasch/hugo-bearblog/) and uses [berkeley mono](https://berkeleymono.com)
-- other than [cloudflare turnstile](https://www.cloudflare.com/application-services/products/turnstile/) for the [contact form](/javascript), [this website](https://github.com/dropalltables/viruus) is fully functional [without javascript]()
+- other than [cloudflare turnstile](https://www.cloudflare.com/application-services/products/turnstile/) for the [contact form](/javascript), [this website](https://github.com/dropalltables/viruus) is fully functional without javascript
