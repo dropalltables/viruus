@@ -1,7 +1,5 @@
 +++
 title = "contact"
-menu = "main"
-weight = 40
 +++
 
 ## warning: javascript :boom.gif:
