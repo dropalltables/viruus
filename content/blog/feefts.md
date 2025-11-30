@@ -1,5 +1,5 @@
 +++
-title = "feets"
+title = "feefts"
 date = "2025-11-29T16:26:26-08:00"
 description = "i am so confused"
 draft = "false"

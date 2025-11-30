@@ -32,6 +32,15 @@ jobs:
           echo "Checking for new or modified blog posts..."
           echo ""
           
+          # Check if commit message contains [[REPUBLISH]] (case-sensitive)
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          FORCE_REPUBLISH=false
+          if echo "$COMMIT_MESSAGE" | grep -q '\[\[REPUBLISH\]\]'; then
+            echo "Found [[REPUBLISH]] in commit message - will treat updated published posts as new"
+            FORCE_REPUBLISH=true
+          fi
+          echo ""
+          
           # Get list of new or modified files in content/blog/
           CHANGED_FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD | grep '^content/blog/.*\.md$' | grep -v '_index.md' || true)
           
@@ -119,6 +128,10 @@ jobs:
               elif [ -n "$PREVIOUS_IS_DRAFT" ] && [ -z "$CURRENT_IS_DRAFT" ]; then
                 # Was draft, now not draft - send to production
                 echo "  Post transitioned from draft to published - sending to production"
+                SHOULD_SEND_PRODUCTION=true
+              elif [ "$FORCE_REPUBLISH" = true ]; then
+                # Was not draft, still not draft, but [[REPUBLISH]] flag is set - send to production
+                echo "  [[REPUBLISH]] flag set - sending updated published post to production"
                 SHOULD_SEND_PRODUCTION=true
               else
                 # Was not draft, still not draft - skip
