@@ -10,7 +10,7 @@ tags = ["feefts"]
 
 for some reason a lot of people have been sending me requests for prices. i do not know for what, or why. all of the people have one word names, ending in feeft.
 
-i have decided to share this slightly concerning but hilarous string of incidents.
+i have decided to share this slightly concerning but hilarous string of incidents. enjoy.
 
 ### belarusian feeft
 
