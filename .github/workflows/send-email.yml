@@ -32,12 +32,12 @@ jobs:
           echo "Checking for new or modified blog posts..."
           echo ""
           
-          # Check if commit message contains [[REPUBLISH]] (case-sensitive)
+          # Check if commit message contains [[REPUBLISH file1.md file2.md ...]] (case-sensitive)
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          FORCE_REPUBLISH=false
-          if echo "$COMMIT_MESSAGE" | grep -q '\[\[REPUBLISH\]\]'; then
-            echo "Found [[REPUBLISH]] in commit message - will treat updated published posts as new"
-            FORCE_REPUBLISH=true
+          REPUBLISH_FILES=""
+          if echo "$COMMIT_MESSAGE" | grep -q '\[\[REPUBLISH [^]]*\]\]'; then
+            REPUBLISH_FILES=$(echo "$COMMIT_MESSAGE" | grep -o '\[\[REPUBLISH [^]]*\]\]' | sed 's/\[\[REPUBLISH //' | sed 's/\]\]//')
+            echo "Found [[REPUBLISH $REPUBLISH_FILES]] in commit message - will republish those posts"
           fi
           echo ""
           
@@ -129,9 +129,9 @@ jobs:
                 # Was draft, now not draft - send to production
                 echo "  Post transitioned from draft to published - sending to production"
                 SHOULD_SEND_PRODUCTION=true
-              elif [ "$FORCE_REPUBLISH" = true ]; then
-                # Was not draft, still not draft, but [[REPUBLISH]] flag is set - send to production
-                echo "  [[REPUBLISH]] flag set - sending updated published post to production"
+              elif [ -n "$REPUBLISH_FILES" ] && echo " $REPUBLISH_FILES " | grep -q " $(basename "$file") "; then
+                # Was not draft, still not draft, but [[REPUBLISH files...]] flag matches - send to production
+                echo "  [[REPUBLISH]] matches $(basename "$file") - sending updated published post to production"
                 SHOULD_SEND_PRODUCTION=true
               else
                 # Was not draft, still not draft - skip
