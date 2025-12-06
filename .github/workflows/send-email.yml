@@ -203,10 +203,11 @@ jobs:
             POST_HTML=$(echo "$POST_HTML" | perl -pe 's| role="doc-backlink"||g')
             POST_HTML=$(echo "$POST_HTML" | perl -pe 's| role="doc-endnotes"||g')
             
-            # Add simple header (date + canonical link) and unsubscribe footer
-            HEADER_HTML="<p><i><time datetime=\"$POST_DATE_ISO\">$POST_DATE_DISPLAY</time> · <a href=\"$POST_URL\">Read on viruus.zip</a></i></p>"
+            # Add simple header (date + canonical link), separator, and unsubscribe footer
+            HEADER_HTML="<p><time datetime=\"$POST_DATE_ISO\">$POST_DATE_DISPLAY</time> - <a href=\"$POST_URL\">Read on my website</a></p>"
+            SEPARATOR_HTML="<p>---</p>"
             UNSUBSCRIBE_HTML="<p>If you no longer want these emails, <a href=\"{{{RESEND_UNSUBSCRIBE_URL}}}\">unsubscribe</a>.</p>"
-            POST_HTML="${HEADER_HTML}${POST_HTML}${UNSUBSCRIBE_HTML}"
+            POST_HTML="${HEADER_HTML}${POST_HTML}${SEPARATOR_HTML}${UNSUBSCRIBE_HTML}"
             
             # Escape content for JSON
             POST_HTML_ESCAPED=$(echo "$POST_HTML" | jq -Rs .)
