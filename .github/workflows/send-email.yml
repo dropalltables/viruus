@@ -151,6 +151,15 @@ jobs:
             
             # Extract title (handle both quoted and unquoted)
             TITLE=$(echo "$FRONTMATTER" | grep "^title\s*=" | head -n 1 | sed 's/^title\s*=\s*//' | sed 's/^"\(.*\)"$/\1/' | sed "s/^'\(.*\)'$/\1/")
+            POST_SLUG=$(basename "$file" .md)
+            POST_URL="https://viruus.zip/$POST_SLUG/"
+            POST_DATE=$(echo "$FRONTMATTER" | grep "^date\s*=" | head -n 1 | sed 's/^date\s*=\s*//' | sed 's/^"\(.*\)"$/\1/' | sed "s/^'\(.*\)'$/\1/")
+            POST_DATE_ISO="$POST_DATE"
+            POST_DATE_DISPLAY=$(date -d "$POST_DATE" "+%d %b, %Y" 2>/dev/null || echo "$POST_DATE")
+            if [ -z "$POST_DATE_DISPLAY" ]; then
+              POST_DATE_DISPLAY="Unknown date"
+              POST_DATE_ISO="Unknown date"
+            fi
             
             if [ -z "$TITLE" ]; then
               TITLE="Untitled Post"
@@ -193,6 +202,11 @@ jobs:
             POST_HTML=$(echo "$POST_HTML" | perl -pe 's| role="doc-noteref"||g')
             POST_HTML=$(echo "$POST_HTML" | perl -pe 's| role="doc-backlink"||g')
             POST_HTML=$(echo "$POST_HTML" | perl -pe 's| role="doc-endnotes"||g')
+            
+            # Add simple header (date + canonical link) and unsubscribe footer
+            HEADER_HTML="<p><i><time datetime=\"$POST_DATE_ISO\">$POST_DATE_DISPLAY</time> · <a href=\"$POST_URL\">Read on viruus.zip</a></i></p>"
+            UNSUBSCRIBE_HTML="<p>If you no longer want these emails, <a href=\"{{{RESEND_UNSUBSCRIBE_URL}}}\">unsubscribe</a>.</p>"
+            POST_HTML="${HEADER_HTML}${POST_HTML}${UNSUBSCRIBE_HTML}"
             
             # Escape content for JSON
             POST_HTML_ESCAPED=$(echo "$POST_HTML" | jq -Rs .)
