@@ -8,7 +8,7 @@ title = "contact me"
 
 for some reason a lot of people [have been sending me requests](/feefts) for prices. i do not know for what, or why. all of the people have one word names, ending in feeft. to all the feefts: **please stop.** im begging you.
 
-<form action="https://system.viruus.zip/contact" method="POST" target="hidden_iframe">
+<form action="https://resender.viruus.zip/contact" method="POST" target="hidden_iframe">
   <input type="text" name="name" placeholder="your name" required>
   <input type="email" name="email" placeholder="your@email.com" required>
   <textarea name="message" placeholder="your message" rows="4" required></textarea>

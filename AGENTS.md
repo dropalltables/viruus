@@ -377,7 +377,7 @@ git submodule update --remote themes/hugo-bearblog
 2. **Contact form**:
    - Uses Cloudflare Turnstile widget (`data-sitekey="0x4AAAAAACCIH6LE-pwfc-u6"`)
    - Loads Turnstile script: `https://challenges.cloudflare.com/turnstile/v0/api.js`
-   - Submits to `https://system.viruus.zip/contact`
+   - Submits to `https://resender.viruus.zip/contact`
    - Hidden iframe prevents redirect after submission
    - Form fields: name, email, message
    - CSS ensures form elements display as block
