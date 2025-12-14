@@ -11,7 +11,7 @@ if you want you can get updates on stuff i do:
   <input type="hidden" name="audience" value="blog">
   <button type="submit">signup</button>
 </form>
-<iframe name="hidden_iframe" style="display: none;"></iframe>
+<iframe name="hidden_iframe" class="hidden-iframe"></iframe>
 
 **check your email to confirm your subscription (check in spam!)**
 

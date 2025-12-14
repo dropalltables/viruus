@@ -1,11 +1,11 @@
 +++
 title = " warning: {{ replace .Name "-" " " | title }}"
 slug = "{{ .Name }}"
-target_sandbox = "{{ .Name }}"
+target_sandboxes = "{{ .Name }}"
 +++
 
 **rated tv-ma**
 
 for javascript, broken stuff, and unfinished projects
 
-[continue](/sandbox/{{ .Name }}/)
+[continue](/sandboxes/{{ .Name }}/)

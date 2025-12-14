@@ -299,7 +299,7 @@ git submodule update --remote themes/hugo-bearblog
 
 1. Add emoji image to `assets/images/emojis/` (e.g., `wave.gif`)
 2. Use in content: `:wave.gif:`
-3. Hugo will render as: `<img src="/images/emojis/wave.gif" alt="wave.gif" class="emoji" style="height: 1em; vertical-align: middle; display: inline-block;">`
+3. Hugo will render as: `<img src="/images/emojis/wave.gif" alt="wave.gif" class="emoji">` (styling via `.emoji` class in `custom.css`)
 
 ### Updating Styles
 

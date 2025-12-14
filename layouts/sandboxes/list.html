@@ -1,0 +1,31 @@
+{{ define "main" }}
+<content>
+  <ul class="blog-posts">
+    {{ range .Pages }}
+    <li>
+      {{ $hasDate := .Params.date }}
+      {{ if $hasDate }}
+      <span class="post-date">
+        <i>
+          <time datetime='{{ .Date.Format "2006-01-02" }}'>
+            {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
+          </time>
+        </i>
+      </span>
+      {{ end }}
+      <div class="post-line">
+        {{ $warningPage := .Site.GetPage (printf "/warning/%s" .Slug) }}
+        <a href="{{ if $warningPage }}{{ $warningPage.RelPermalink }}{{ else }}{{ (printf "/warning/%s/" .Slug) | relURL }}{{ end }}">{{ .Title }}</a>
+        {{ with .Params.description }}
+        <span class="post-description">{{ . }}</span>
+        {{ end }}
+      </div>
+    </li>
+    {{ else }}
+    <li>no sandboxes yet</li>
+    {{ end }}
+  </ul>
+</content>
+{{ end }}
+
+

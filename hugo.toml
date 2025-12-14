@@ -20,7 +20,7 @@ ignoreErrors = ["error-disable-taxonomy"]
 [permalinks]
   blog = "/:slug/"
   tags = "/blog/:slug"
-  silly = "/silly/:slug/"
+  sandboxes = "/sandboxes/:slug/"
   warning = "/warning/:slug/"
 
 [[menu.main]]

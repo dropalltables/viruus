@@ -16,7 +16,7 @@
   {{- with resources.Get $emojiPath -}}
     {{- $published := .RelPermalink -}}
     {{- $placeholder := printf `:%s:` $emojiName -}}
-    {{- $imgTag := printf `<img src="%s" alt="%s" class="emoji" style="height: 1em; vertical-align: middle; display: inline-block;">` $published $emojiName -}}
+    {{- $imgTag := printf `<img src="%s" alt="%s" class="emoji">` $published $emojiName -}}
     {{- $content = replace $content $placeholder $imgTag -}}
   {{- else -}}
     {{/* Emoji file not found, leave the :emoji: text as-is */}}

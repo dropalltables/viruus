@@ -14,20 +14,20 @@ i have decided to share this slightly concerning but hilarous string of incident
 
 ### belarusian feeft
 
-<img src="/images/feefts/belarus.png" alt="belarusian feeft" style="width: 50%">
+<img src="/images/feefts/belarus.png" alt="belarusian feeft" class="half-width">
 
 ### hungarian feeft
 
-<img src="/images/feefts/hungary.png" alt="hungarian feeft" style="width: 50%">
+<img src="/images/feefts/hungary.png" alt="hungarian feeft" class="half-width">
 
 ### latvian feeft
 
-<img src="/images/feefts/latvia.png" alt="latvian feeft" style="width: 50%">
+<img src="/images/feefts/latvia.png" alt="latvian feeft" class="half-width">
 
 ### south african feeft
 
-<img src="/images/feefts/south-africa.png" alt="south african feeft" style="width: 50%">
+<img src="/images/feefts/south-africa.png" alt="south african feeft" class="half-width">
 
 ### unknown feeft
 
-<img src="/images/feefts/unknown.png" alt="unknown feeft" style="width: 50%">
+<img src="/images/feefts/unknown.png" alt="unknown feeft" class="half-width">

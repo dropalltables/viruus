@@ -13,13 +13,16 @@
   {{- partial "process-emojis.html" .Content -}}
 </content>
 
-{{ if eq .Type "blog" }}{{ if (.Param "enablePostNavigator")}}
+{{ if eq .Type "blog" }}
+{{ if (.Param "enablePostNavigator")}}
 {{- partial "post_navigator.html" . -}}
-{{ end }}{{ end }}
-
+{{ end }}
+{{ with $.GetTerms "tags" }}
 <p>
-  {{ range (.GetTerms "tags") }}
+  {{ range . }}
   <a href="{{ .Permalink }}">#{{ .LinkTitle }}</a>
   {{ end }}
 </p>
+{{ end }}
+{{ end }}
 {{ end }}

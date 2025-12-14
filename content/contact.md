@@ -19,7 +19,7 @@ for some reason a lot of people [have been sending me requests](/feefts) for pri
 <script>
 document.getElementById('contact-submit').disabled = false;
 </script>
-<iframe name="hidden_iframe" style="display:none"></iframe>
+<iframe name="hidden_iframe" class="hidden-iframe"></iframe>
 <br>
 <noscript>
 <strong>this contact form requires javascript for cloudflare turnstile spam protection.</strong> sorry :(
