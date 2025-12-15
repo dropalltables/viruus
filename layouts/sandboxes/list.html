@@ -14,8 +14,9 @@
       </span>
       {{ end }}
       <div class="post-line">
-        {{ $warningPage := .Site.GetPage (printf "/warning/%s" .Slug) }}
-        <a href="{{ if $warningPage }}{{ $warningPage.RelPermalink }}{{ else }}{{ (printf "/warning/%s/" .Slug) | relURL }}{{ end }}">{{ .Title }}</a>
+        {{ $slug := .File.ContentBaseName }}
+        {{ $warningPage := .Site.GetPage (printf "/warning/%s" $slug) }}
+        <a href="{{ if $warningPage }}{{ $warningPage.RelPermalink }}{{ else }}{{ (printf "/warning/%s/" $slug) | relURL }}{{ end }}">{{ .Title }}</a>
         {{ with .Params.description }}
         <span class="post-description">{{ . }}</span>
         {{ end }}
