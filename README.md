@@ -1,6 +1,6 @@
-# viruus.zip
+# [viruus.zip](https://viruus.zip)
 
-Personal website and blog built with [Hugo](https://gohugo.io/) and the [hugo-bearblog](https://github.com/janraasch/hugo-bearblog/) theme. Uses [resender](https://github.com/dropalltables/resender) for emails.
+My personal website and blog built with [Hugo](https://gohugo.io/) and the [hugo-bearblog](https://github.com/janraasch/hugo-bearblog/) theme, uses [resender](https://github.com/dropalltables/resender) for emails.
 
 ## Setup
 
@@ -34,7 +34,7 @@ Output will be in the `public/` directory.
 
 ## Deployment
 
-The site is configured to deploy automatically to Vercel with Hugo version 0.138.0.
+This site deploys to Cloudflare Pages using git hooks.
 
 ## Email Automation
 
@@ -50,6 +50,6 @@ New blog posts are automatically sent via Resend when pushed to main. Requires G
 
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License v3.0
 
 Copyright © 2025, dropalltables
