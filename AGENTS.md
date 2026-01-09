@@ -98,7 +98,6 @@ The `datedooter.sh` script updates the `date` field in a blog post's frontmatter
 │   └── workflows/
 │       └── send-email.yml  # Email automation
 ├── hugo.toml            # Site configuration
-├── vercel.json          # Vercel deployment config
 └── datedooter.sh        # Timestamp update utility
 ```
 
@@ -107,7 +106,6 @@ The `datedooter.sh` script updates the `date` field in a blog post's frontmatter
 Key configuration settings:
 
 - **Theme**: `hugo-bearblog` (git submodule)
-- **Hugo version**: 0.138.0 (specified in vercel.json for deployment)
 - **Base URL**: `https://viruus.zip`
 - **Permalinks**: Blog posts use `/:slug/` format (Bearblog-style)
 - **Taxonomies**: Disabled (`disableKinds = ["taxonomy"]`)
@@ -251,10 +249,6 @@ The workflow intelligently handles different scenarios:
 
 ## Deployment
 
-### Vercel
-
-- **Platform**: Vercel (automatic deployment)
-- **Hugo version**: 0.138.0 (specified in `vercel.json`)
 - **Build command**: `hugo` (default)
 - **Output directory**: `public/` (default)
 - **Domain**: viruus.zip
@@ -394,18 +388,13 @@ git submodule update --remote themes/hugo-bearblog
 
 ### Deployment
 
-1. **Vercel Hugo version**:
-   - Locked to 0.138.0 in `vercel.json`
-   - Local Hugo version may differ (currently 0.152.2 on this machine)
-   - Test builds locally if changing Hugo-specific features
-
-2. **Build artifacts**:
+1. **Build artifacts**:
    - `public/` directory is gitignored
    - Generated fresh on each deployment
    - Don't commit built files
 
-3. **Submodules**:
-   - Vercel automatically fetches submodules
+2. **Submodules**:
+   - Cloudflare Pages automatically fetches submodules
    - Ensure `.gitmodules` is committed and correct
 
 ## Dependencies
@@ -414,7 +403,6 @@ git submodule update --remote themes/hugo-bearblog
 - **hugo-bearblog**: Theme (git submodule)
 - **Pandoc**: Markdown to HTML conversion (GitHub Actions only)
 - **Resend**: Email service provider (external API)
-- **Vercel**: Hosting and deployment platform
 - **Cloudflare Turnstile**: Spam protection for contact form (JavaScript widget)
 
 ## File Patterns to Recognize
